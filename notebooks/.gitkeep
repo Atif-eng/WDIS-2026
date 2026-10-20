@@ -1,0 +1,49 @@
+"""CLI script for evaluating a trained model artifact."""
+
+from __future__ import annotations
+
+import argparse
+from pathlib import Path
+
+import joblib
+import pandas as pd
+
+from wids_2026.config import DEFAULT_TARGET_COLUMN
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Evaluate a trained model.")
+    parser.add_argument("--model-path", type=str, required=True, help="Path to the pickled model artifact.")
+    parser.add_argument("--test-data", type=str, required=True, help="Path to the test dataset CSV.")
+    parser.add_argument("--target", type=str, default=DEFAULT_TARGET_COLUMN, help="Name of the target column.")
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    model = joblib.load(args.model_path)
+    df = pd.read_csv(args.test_data)
+
+    if args.target not in df.columns:
+        raise ValueError(f"Target column '{args.target}' not found in {args.test_data}.")
+
+    X = df.drop(columns=[args.target])
+    y_true = df[args.target]
+    predictions = model.predict(X)
+
+    from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
+
+    metrics = {
+        "accuracy": accuracy_score(y_true, predictions),
+        "precision": precision_score(y_true, predictions, zero_division=0),
+        "recall": recall_score(y_true, predictions, zero_division=0),
+        "f1": f1_score(y_true, predictions, zero_division=0),
+    }
+
+    print("Evaluation metrics:")
+    for name, value in metrics.items():
+        print(f"- {name}: {value:.4f}")
+
+
+if __name__ == "__main__":
+    main()

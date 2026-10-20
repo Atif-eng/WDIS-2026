@@ -1,67 +1,93 @@
-# 🔥 WiDS 2026: The Comprehensive EDA & Wildfire Prediction
+# WiDS 2026 Wildfire Prediction
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python)
-![Library](https://img.shields.io/badge/Library-Scikit--Learn-orange?style=for-the-badge)
-![Technique](https://img.shields.io/badge/Technique-Ensemble_Modeling-red?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-Completed-success?style=for-the-badge)
+A professional Python project template for the WiDS 2026 wildfire danger prediction workflow originally developed in the notebook.
 
-## 📌 Project Overview
-**"Understanding the Physics of Fire through Data."**
+## Project overview
 
-This repository contains a comprehensive Exploratory Data Analysis (EDA) and Machine Learning pipeline developed for the **Women in Data Science (WiDS) 2026 Datathon**. 
+This repository focuses on predicting wildfire danger using a structured environmental dataset. The goal is to combine exploratory data analysis, preprocessing, model training, and evaluation in a clean and reusable Python project structure.
 
-The mission objective is to predict **Wildfire Danger** across different regions. Before blindly applying algorithms, this notebook dives deep into the underlying environmental patterns, using Pandas core functions and advanced visualizations to understand the drivers of extreme fire events.
+## Repository structure
 
-**Author:** Muhammad Atif
+```text
+.
+├── README.md
+├── pyproject.toml
+├── requirements.txt
+├── .gitignore
+├── src/
+│   └── wids_2026/
+│       ├── __init__.py
+│       ├── config.py
+│       ├── data_loader.py
+│       ├── preprocessing.py
+│       ├── models.py
+│       ├── visualization.py
+│       └── pipeline.py
+├── scripts/
+│   ├── train.py
+│   └── evaluate.py
+└── notebooks/
+    └── .gitkeep
+```
 
-## 📂 Dataset
-The dataset provides meteorological and environmental metrics crucial for forecasting fire risks.
-- **Target Variable:** Wildfire Danger / Probability of Fire Occurrence (Multi-class or Binary classification based on time horizons).
-- **Features Include:** Temperature, Humidity, Wind Speed, Vegetation Index, and historical fire occurrences.
+## Features
 
-## 🛠 Tech Stack
-- **Language:** Python
-- **Data Engineering:** `pandas`, `numpy`, `imblearn` (SMOTE for dealing with imbalanced classes)
-- **Visualization:** `matplotlib`, `seaborn`, `shap` (for model interpretability)
-- **Machine Learning:** - **Ensemble Models:** `RandomForestClassifier`, `ExtraTreesClassifier`, `HistGradientBoostingClassifier`, `GradientBoostingClassifier`
-  - **Meta-Estimators:** `StackingClassifier`, `VotingClassifier`, `MultiOutputClassifier`
-  - **Preprocessing:** `StandardScaler`, `MinMaxScaler`, `RobustScaler`
+- robust CSV loading utilities
+- reusable preprocessing pipeline
+- model training and evaluation helpers
+- visualization functions for EDA and feature importance
+- command-line training and evaluation entrypoints
+- package-based structure for easier extension
 
-## 📊 Project Workflow: The "Physics of Fire"
+## Quick start
 
-### 1. Advanced Data Intelligence 🌲
-- **Extensive EDA:** Checked distributions, shapes, and statistical summaries of all weather variables.
-- **Correlation Mapping:** Identified collinearity between metrics like "High Temps + Low Humidity = Maximum Danger."
-- **Data Aggregation:** Renamed columns and aggregated temporal features to build stronger predictive signals.
+### 1. Clone the repository
 
-### 2. Handling Imbalanced Nature ⚖️
-Wildfires are severe but relatively rare events in the dataset.
-- Applied **SMOTE** (Synthetic Minority Over-sampling Technique) to ensure the models don't just default to predicting "No Fire."
+```bash
+git clone https://github.com/Atif-eng/WDIS-2026.git
+cd WDIS-2026
+```
 
-### 3. Model Building & Ensembling 🧠
-Instead of relying on a single algorithm, we built a robust pipeline to prevent overfitting and capture complex non-linear relationships:
-- **Base Models:** Utilized the speed of `HistGradientBoosting` and the variance-reduction of `RandomForest` & `ExtraTrees`.
-- **Ensemble Strategy:** Combined these base models using `StackingClassifier` and `VotingClassifier` (with `LogisticRegression` as a potential meta-learner) to maximize accuracy and F1-score.
-- **Validation:** Implemented rigorous `StratifiedKFold` cross-validation to simulate real-world unseen data scenarios.
+### 2. Create a virtual environment
 
-### 4. Interpretability (SHAP) 🔍
-Integrated SHAP (SHapley Additive exPlanations) to explain *why* the model predicted a fire, allowing domain experts (like meteorologists) to verify the logic.
+```bash
+python -m venv .venv
+source .venv/bin/activate   # Linux/macOS
+# or .venv\Scripts\activate  # Windows
+```
 
-## 🚀 How to Run
+### 3. Install dependencies
 
-1.  **Clone the repository:**
-    ```bash
-    git clone [https://github.com/your-username/wids-2026-wildfire.git](https://github.com/your-username/wids-2026-wildfire.git)
-    ```
-2.  **Install dependencies:**
-    ```bash
-    pip install pandas numpy scikit-learn seaborn matplotlib imbalanced-learn shap
-    ```
-3.  **Run the Notebook:**
-    Open `WIDS_WORLD.ipynb` to explore the visualizations and the stacked ensemble pipeline.
+```bash
+pip install -r requirements.txt
+```
 
-## 🤝 Contributing
-If you have ideas for bringing in external satellite data (like MODIS) or implementing spatial-temporal cross-validation, feel free to fork and open a PR!
+### 4. Train a model
 
----
-_Created by Muhammad Atif | WiDS 2026 Initiative_
+```bash
+python scripts/train.py --data-dir /path/to/data --target event
+```
+
+### 5. Evaluate a trained model
+
+```bash
+python scripts/evaluate.py --test-data /path/to/test.csv --model-path models/best_model.pkl
+```
+
+## Expected data format
+
+The project expects CSV files similar to the WiDS datathon structure:
+
+- `train.csv`
+- `test.csv`
+- optionally `metadata` files or other supporting files
+
+The target column is expected to be named `event` by default, but this can be overridden in training.
+
+## Notes
+
+This repo was turned into a cleaner and more maintainable Python project while preserving the notebook-based analysis concept. The original notebook remains a good reference for EDA and experimentation, while the Python modules make the workflow easier to extend, automate, and deploy.
+
+## Author
+
+Muhammad Atif

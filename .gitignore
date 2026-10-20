@@ -1,0 +1,36 @@
+# Windows/Unix gitignore
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.log
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Data files
+*.csv
+*.parquet
+*.tsv
+*.xlsx
+
+# Notebook outputs
+.ipynb_checkpoints/
+
+# ML model artifacts
+models/
+artifacts/
+checkpoints/
+*.pkl
+*.joblib
+
+# Environment files
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
